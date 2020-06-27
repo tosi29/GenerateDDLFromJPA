@@ -1,0 +1,28 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Generate DDL
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ '*' ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Generate MySQL DDL
+      run: |
+        chmod +x mvnw
+        ./mvnw test
+        ./mvnw com.devskiller.jpa2ddl:jpa2ddl-maven-plugin:0.9.12:generate
+    - name: Show DDL
+      run: cat /home/runner/work/GenerateDDLFromJPA/GenerateDDLFromJPA/schema.sql
+    - uses: actions/upload-artifact@v2
+      with:
+        name: mysql
+        path: schema.sql
