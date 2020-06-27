@@ -17,6 +17,8 @@ public class MyEntity2 {
     private String firstName;
     private String lastName;
 
+    private boolean bool;
+
     @Column(name="specified")
     private String value;
     private String under_scored;
